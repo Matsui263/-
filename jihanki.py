@@ -103,7 +103,19 @@ class MoneyManager:
         self.inserted_money[value] += 1
 
         return True
-
+    # ★追加：お釣りでどの硬貨が足りないか
+    def lack_coin(self,change):
+        remaining=change
+        for coin in[1000,500,100,50,10]:
+            #硬貨が何枚必要か計算
+           need=remaining//coin
+            #必要な枚数より在庫が少ない場合
+           if need>self.money_stock.get(coin,0):
+               #不足している硬貨を返す
+               return coin
+           remaining-=need*coin
+        return None
+    
     def commit_inserted_money(self):
         # 購入成立時だけ、投入中のお金を自販機内部在庫へ反映する
         for coin, count in self.inserted_money.items():
@@ -240,7 +252,11 @@ class ItemManager:
         change = self.money_manager.inserted_total - item.price
 
         if not self.money_manager.can_return_change(change):
-            print("\033[31m 硬貨の釣銭切れのため購入できません。\033[0m")
+            lack=self.money_manager.lack_coin(change)
+            if lack==1000:
+                print(f"\033[31m {lack}円札の釣銭切れのため購入できません。\033[0m")
+            else:
+                print(f"\033[31m {lack}円硬貨の釣銭切れのため購入できません。\033[0m")
             time.sleep(2)
             return False
 
