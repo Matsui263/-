@@ -219,13 +219,13 @@ class ItemManager:
     def display_items(self):
         for item in self.items:
             if item.stock == 0:
-                print(f"{item.code} {item.name}\033[31m 売切\033[0m　残数{item.stock}")
+                print(f"{item.code} {item.name}\033[31m 売切\033[0m")
 
             elif item.price <= self.money_manager.inserted_total:
-                print(f"{item.code} {item.name}\033[34m {item.price}円\033[0m　残数{item.stock}")
+                print(f"{item.code} {item.name}\033[34m {item.price}円\033[0m")
 
             else:
-                print(f"{item.code} {item.name} {item.price}円　残数{item.stock}")
+                print(f"{item.code} {item.name} {item.price}円")
 
     def display_stock_status(self):
         print("\n--- 商品残数確認 ---")
