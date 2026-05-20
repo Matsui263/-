@@ -91,7 +91,7 @@ class MoneyManager:
         limit = 2 if value == 1000 else 20
 
         if self.inserted_count[value] >= limit:
-            print("\033[31m {value}円が投入枚数が上限を超えています。\033[0m")
+            print(f"\033[31m {value}円が投入枚数が上限を超えています。\033[0m")
             time.sleep(2)
             return False
 
